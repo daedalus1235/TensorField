@@ -1,31 +1,74 @@
 #include <iostream>
 #include <vector>
+
+#include <SDL.h>
+#include <stdio.h>
+
+#include "Ball.h"
+#include "Field.h"
 #define nl "\n"
+
+#include <SDL.h>
+#include <stdio.h>
 
 using namespace std;
 
-vector<int> field(int (&arr)[2]);
+//Screen dimension constants
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
-int main(){
+int main( int argc, char* args[] )
+{
+	SDL_Window* window = NULL;
+	SDL_Surface* screenSurface = NULL;
+
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
+		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+	}
+	else{
+		//Create window
+		window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		if( window == NULL ){
+			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+		}
+		else{
+			//Get window surface
+			screenSurface = SDL_GetWindowSurface( window );
+
+			//Fill the surface white
+			SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xAA, 0xFF ) );
+
+			//Update the surface
+			SDL_UpdateWindowSurface( window );
+
+			//Wait two seconds
+			SDL_Delay( 2000 );
+		}
+	}
+
     int n = 1000;
-    int pos[2];
-    int vel[2];
+    double pos[2];
+    double vel[2];
+    Field* test = new Field();
     while(n>0){
         pos[0]=n;
         pos[1]=2*n;
-        vel[0]=field(pos)[0];
-        vel[1]=field(pos)[1];
+        vel[0]=test->getAccel(pos)[0];
+        vel[1]=test->getAccel(pos)[1];
         cout<<vel[0]<<", "<<vel[1]<<nl;
         n--;
     }
-    return 0;
+
+	//Destroy window
+	SDL_DestroyWindow( window );
+
+	//Quit SDL subsystems
+	SDL_Quit();
+
+	return 0;
 }
 
-vector<int> field(int (&arr)[2]) {
-    vector<int> accel;
 
-    accel.push_back(arr[0]);
-    accel.push_back(arr[1]);
 
-    return accel;
-}
+
+
