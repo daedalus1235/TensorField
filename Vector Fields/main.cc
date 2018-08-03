@@ -11,52 +11,62 @@
 #include <SDL.h>
 #include <stdio.h>
 
+typedef long long ll;
+
 using namespace std;
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
+SDL_Window* window;
+SDL_Surface* screenSurface;
+SDL_Renderer* renderer;
+
+int InitDisplay();
+void drawcircle(int, int, int);
+
 int main( int argc, char* args[] )
 {
-	SDL_Window* window = NULL;
-	SDL_Surface* screenSurface = NULL;
+    InitDisplay();
 
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
-		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
-	}
-	else{
-		//Create window
-		window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-		if( window == NULL ){
-			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
-		}
-		else{
-			//Get window surface
-			screenSurface = SDL_GetWindowSurface( window );
-
-			//Fill the surface white
-			SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xAA, 0xFF ) );
-
-			//Update the surface
-			SDL_UpdateWindowSurface( window );
-
-			//Wait two seconds
-			SDL_Delay( 2000 );
-		}
-	}
-
-    int n = 1000;
+    ll n = 0;
     double pos[2];
     double vel[2];
     Field* test = new Field();
-    while(n>0){
+
+    bool quit = false;
+    SDL_Event e;
+
+    while(!quit){
+        while(SDL_PollEvent(&e) !=0){
+            if (e.type == SDL_QUIT) //closes window
+                quit = true;
+            else if (e.type == SDL_KEYDOWN){
+                if (e.key.keysym.scancode == SDL_SCANCODE_ESCAPE) //presses escape
+                    quit = true;
+            }
+        }
+
         pos[0]=n;
         pos[1]=2*n;
         vel[0]=test->getAccel(pos)[0];
         vel[1]=test->getAccel(pos)[1];
         cout<<vel[0]<<", "<<vel[1]<<nl;
-        n--;
+        n++;
+
+        SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_RenderClear(renderer);
+
+        SDL_Rect fillRect = { SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
+        SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
+        SDL_RenderFillRect( renderer, &fillRect );
+
+        SDL_SetRenderDrawColor (renderer, 0x00, 0x00, 0xFF, 0xFF);
+        drawcircle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 100);
+
+        SDL_RenderPresent (renderer);
+
     }
 
 	//Destroy window
@@ -68,7 +78,70 @@ int main( int argc, char* args[] )
 	return 0;
 }
 
+int InitDisplay(){
+    SDL_Window* window = NULL;
+	SDL_Surface* screenSurface = NULL;
 
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
+		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+		return -1;
+	}
+	else{
+		//Create window
+		window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		if( window == NULL ){
+			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+			return -2;
+		}
+		else{
+            //Create renderer for window
+            renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
+            if( renderer == NULL ){
+                printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
+                return -3;
+            }
+            else{
+                //Initialize renderer color
+                SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+                SDL_RenderClear(renderer);
+            }
+		}
+	}
+}
+
+void drawcircle(int x0, int y0, int radius){
+    int x = radius-1;
+    int y = 0;
+    int dx = 1;
+    int dy = 1;
+    int err = dx - (radius << 1);
+
+    while (x >= y)
+    {
+        SDL_RenderDrawPoint(renderer, x0 + x, y0 + y);
+        SDL_RenderDrawPoint(renderer, x0 + y, y0 + x);
+        SDL_RenderDrawPoint(renderer, x0 - y, y0 + x);
+        SDL_RenderDrawPoint(renderer, x0 - x, y0 + y);
+        SDL_RenderDrawPoint(renderer, x0 - x, y0 - y);
+        SDL_RenderDrawPoint(renderer, x0 - y, y0 - x);
+        SDL_RenderDrawPoint(renderer, x0 + y, y0 - x);
+        SDL_RenderDrawPoint(renderer, x0 + x, y0 - y);
+
+        if (err <= 0)
+        {
+            y++;
+            err += dy;
+            dy += 2;
+        }
+
+        if (err > 0)
+        {
+            x--;
+            dx += 2;
+            err += dx - (radius << 1);
+        }
+    }
+}
 
 
 
