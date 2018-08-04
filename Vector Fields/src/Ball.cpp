@@ -31,3 +31,7 @@ int Ball::update(vector<Field> fields){
 
     return 0;
 }
+
+void Ball::render(SDL_Renderer* ren){
+
+}

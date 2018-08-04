@@ -61,7 +61,6 @@ int main( int argc, char* args[] )
             SDL_SetRenderDrawColor (renderer, 0xFF, 0x00, 0x00, 0xFF);
         }
 
-
         fillcircle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 100);
 
 
@@ -101,11 +100,6 @@ int InitDisplay(){
                 //Initialize renderer color
                 SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
                 SDL_RenderClear(renderer);
-
-                SDL_Rect fillRect = { SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
-                SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
-                SDL_RenderFillRect( renderer, &fillRect );
-                SDL_RenderPresent (renderer);
             }
 		}
 	}
@@ -172,31 +166,17 @@ void fillcircle(int x0, int y0, int radius){
 
     while (x >= y)
     {
-        //compute first octant, render in other 7
-        SDL_RenderDrawLine(renderer, x0, y0, x0 + x, y0 + y);
+        SDL_RenderDrawLine(renderer, x0 - x, y0 + y, x0 + x, y0 + y);
         SDL_RenderPresent (renderer);
 
-        SDL_RenderDrawLine(renderer, x0, y0, x0 + y, y0 + x);
+        SDL_RenderDrawLine(renderer, x0 + y, y0 + x, x0 - y, y0 + x);
         SDL_RenderPresent (renderer);
 
-        SDL_RenderDrawLine(renderer, x0, y0, x0 - y, y0 + x);
+        SDL_RenderDrawLine(renderer, x0 + x, y0 - y, x0 - x, y0 - y);
         SDL_RenderPresent (renderer);
 
-        SDL_RenderDrawLine(renderer, x0, y0, x0 - x, y0 + y);
+        SDL_RenderDrawLine(renderer, x0 + y, y0 - x, x0 - y, y0 - x);
         SDL_RenderPresent (renderer);
-
-        SDL_RenderDrawLine(renderer, x0, y0, x0 - x, y0 - y);
-        SDL_RenderPresent (renderer);
-
-        SDL_RenderDrawLine(renderer, x0, y0, x0 - y, y0 - x);
-        SDL_RenderPresent (renderer);
-
-        SDL_RenderDrawLine(renderer, x0, y0, x0 + y, y0 - x);
-        SDL_RenderPresent (renderer);
-
-        SDL_RenderDrawLine(renderer, x0, y0, x0 + x, y0 - y);
-        SDL_RenderPresent (renderer);
-
 
         if (err <= 0)
         {

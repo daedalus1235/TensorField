@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include <SDL.h>
 
 using namespace std;
 
@@ -12,6 +13,7 @@ class Field
         Field();
         virtual ~Field();
         vector<double> getAccel(double (&arr)[2]);
+        void render(SDL_Renderer*);
     protected:
 
     private:

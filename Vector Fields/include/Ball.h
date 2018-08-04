@@ -22,11 +22,13 @@ class Ball
         vector<double> getPos();
         vector<double> getVel();
         int update(vector<Field>);
+        void render(SDL_Renderer*);
     protected:
 
     private:
         double position[2];
         double velocity[2];
+        int radius;
 
 };
 

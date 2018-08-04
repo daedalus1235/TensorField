@@ -19,3 +19,7 @@ vector<double> Field::getAccel(double (&arr)[2]) {
 
     return accel;
 }
+
+void Field::render(SDL_Renderer* ren){
+
+}
