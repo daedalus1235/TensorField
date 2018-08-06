@@ -16,11 +16,12 @@ typedef long long ll;
 using namespace std;
 
 //Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
 
 SDL_Window* window;
 SDL_Renderer* renderer;
+
+vector<Ball> balls;
+vector<Field> fields;
 
 int InitDisplay();
 void drawcircle(int, int, int);
@@ -28,15 +29,30 @@ void fillcircle(int, int, int);
 
 int main( int argc, char* args[] )
 {
+
+    double pos[] = {100.,50.};
+    Ball testBall(pos, 30);
+    balls.push_back(testBall);
+
+    Field testField;
+
     InitDisplay();
 
     ll n = 0;
-    double pos[2];
-    double vel[2];
-    Field* test = new Field();
 
     bool quit = false;
     SDL_Event e;
+
+    bool ready=false;
+
+    while(!ready){
+        while(SDL_PollEvent(&e) !=0){
+            if (e.type == SDL_KEYDOWN)
+                if (e.key.keysym.scancode == SDL_SCANCODE_RETURN) //presses escape
+                    ready = true;
+        }
+    }
+
 
     while(!quit){
         while(SDL_PollEvent(&e) !=0){
@@ -48,11 +64,7 @@ int main( int argc, char* args[] )
             }
         }
 
-        pos[0]=n;
-        pos[1]=2*n;
-        vel[0]=test->getAccel(pos)[0];
-        vel[1]=test->getAccel(pos)[1];
-        cout<<vel[0]<<", "<<vel[1]<<nl;
+        cout<<n<<nl;
         n++;
 
         if(n%2==0)
@@ -61,9 +73,13 @@ int main( int argc, char* args[] )
             SDL_SetRenderDrawColor (renderer, 0xFF, 0x00, 0x00, 0xFF);
         }
 
-        fillcircle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 100);
+        for(vector<Ball>::iterator it = balls.begin(); it != balls.end(); ++it){
+            it->render(renderer, {testField});
+        }
+        SDL_Delay(1);
 
-
+        SDL_SetRenderDrawColor (renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_RenderClear(renderer);
     }
 
 	//Destroy window
@@ -84,7 +100,7 @@ int InitDisplay(){
 	}
 	else{
 		//Create window
-		window = SDL_CreateWindow( "Loading Icon", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		window = SDL_CreateWindow( "Bouncing Ball", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( window == NULL ){
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
 			return -2;
@@ -117,28 +133,13 @@ void drawcircle(int x0, int y0, int radius){
     {
         //compute first octant, render in other 7
         SDL_RenderDrawPoint(renderer, x0 + x, y0 + y);
-        SDL_RenderPresent (renderer);
-
         SDL_RenderDrawPoint(renderer, x0 + y, y0 + x);
-        SDL_RenderPresent (renderer);
-
         SDL_RenderDrawPoint(renderer, x0 - y, y0 + x);
-        SDL_RenderPresent (renderer);
-
         SDL_RenderDrawPoint(renderer, x0 - x, y0 + y);
-        SDL_RenderPresent (renderer);
-
         SDL_RenderDrawPoint(renderer, x0 - x, y0 - y);
-        SDL_RenderPresent (renderer);
-
         SDL_RenderDrawPoint(renderer, x0 - y, y0 - x);
-        SDL_RenderPresent (renderer);
-
         SDL_RenderDrawPoint(renderer, x0 + y, y0 - x);
-        SDL_RenderPresent (renderer);
-
         SDL_RenderDrawPoint(renderer, x0 + x, y0 - y);
-        SDL_RenderPresent (renderer);
 
 
         if (err <= 0)
@@ -157,41 +158,6 @@ void drawcircle(int x0, int y0, int radius){
     }
 }
 
-void fillcircle(int x0, int y0, int radius){
-    int x = radius-1;
-    int y = 0;
-    int dx = 1;
-    int dy = 1;
-    int err = dx - (radius << 1);
 
-    while (x >= y)
-    {
-        SDL_RenderDrawLine(renderer, x0 - x, y0 + y, x0 + x, y0 + y);
-        SDL_RenderPresent (renderer);
-
-        SDL_RenderDrawLine(renderer, x0 + y, y0 + x, x0 - y, y0 + x);
-        SDL_RenderPresent (renderer);
-
-        SDL_RenderDrawLine(renderer, x0 + x, y0 - y, x0 - x, y0 - y);
-        SDL_RenderPresent (renderer);
-
-        SDL_RenderDrawLine(renderer, x0 + y, y0 - x, x0 - y, y0 - x);
-        SDL_RenderPresent (renderer);
-
-        if (err <= 0)
-        {
-            y++;
-            err += dy;
-            dy += 2;
-        }
-
-        if (err > 0)
-        {
-            x--;
-            dx += 2;
-            err += dx - (radius << 1);
-        }
-    }
-}
 
 

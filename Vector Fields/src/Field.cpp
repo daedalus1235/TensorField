@@ -2,6 +2,7 @@
 
 Field::Field()
 {
+
     //ctor
 }
 
@@ -14,8 +15,8 @@ Field::~Field()
 vector<double> Field::getAccel(double (&arr)[2]) {
     vector<double> accel;
 
-    accel.push_back(arr[0]);
-    accel.push_back(arr[1]);
+    accel.push_back(0);
+    accel.push_back(9.81);
 
     return accel;
 }

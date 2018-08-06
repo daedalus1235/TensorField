@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1533352629 source:d:\files\code\github\vecor fields\vectfield\vector fields\main.cc
+1533515059 source:d:\files\code\github\vecor fields\vectfield\vector fields\main.cc
 	<iostream>
 	<vector>
 	<SDL.h>
@@ -343,20 +343,22 @@
 	"begin_code.h"
 	"close_code.h"
 
-1533352695 d:\files\code\github\vecor fields\vectfield\vector fields\include\ball.h
+1533513810 d:\files\code\github\vecor fields\vectfield\vector fields\include\ball.h
 	<iostream>
 	<vector>
-	<SDL.h>
+	<cmath>
 	<stdio.h>
+	<stdarg.h>
+	<SDL.h>
 	"Field.h"
 
-1533352629 source:d:\files\code\github\vecor fields\vectfield\vector fields\src\ball.cpp
+1533515082 source:d:\files\code\github\vecor fields\vectfield\vector fields\src\ball.cpp
 	"Ball.h"
 
-1533352629 source:d:\files\code\github\vecor fields\vectfield\vector fields\src\field.cpp
+1533514180 source:d:\files\code\github\vecor fields\vectfield\vector fields\src\field.cpp
 	"Field.h"
 
-1533352655 d:\files\code\github\vecor fields\vectfield\vector fields\include\field.h
+1533511024 d:\files\code\github\vecor fields\vectfield\vector fields\include\field.h
 	<vector>
 	<iostream>
 	<SDL.h>
