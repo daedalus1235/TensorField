@@ -1,14 +1,13 @@
 #include <iostream>
 #include <vector>
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <stdio.h>
 
 #include "Ball.h"
 #include "Field.h"
 #define nl "\n"
 
-#include <SDL.h>
 #include <stdio.h>
 
 typedef long long ll;

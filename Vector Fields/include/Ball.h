@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 
 #include "Field.h"
