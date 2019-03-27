@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/Ball.h
+iostream
+-
+vector
+-
+cmath
+-
+stdio.h
+-
+stdarg.h
+-
+SDL2/SDL.h
+-
+Field.h
+../include/Field.h
+
+../include/Field.h
+vector
+-
+iostream
+-
+SDL2/SDL.h
+-
+
+/home/charles/Desktop/vectfield/Vector Fields/src/Ball.cc
+Ball.h
+/home/charles/Desktop/vectfield/Vector Fields/src/Ball.h
+
+/home/charles/Desktop/vectfield/Vector Fields/src/Field.cc
+Field.h
+/home/charles/Desktop/vectfield/Vector Fields/src/Field.h
+

@@ -1,15 +1,12 @@
 #include <iostream>
 #include <vector>
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <stdio.h>
 
 #include "Ball.h"
 #include "Field.h"
 #define nl "\n"
-
-#include <SDL.h>
-#include <stdio.h>
 
 typedef long long ll;
 
@@ -30,7 +27,8 @@ void fillcircle(int, int, int);
 int main( int argc, char* args[] )
 {
 
-    double pos[] = {100.,50.};
+    double pos[] = {640.,100.};
+    double vel[] = {0,0};
     Ball testBall(pos, 30);
     balls.push_back(testBall);
 
@@ -76,7 +74,7 @@ int main( int argc, char* args[] )
         for(vector<Ball>::iterator it = balls.begin(); it != balls.end(); ++it){
             it->render(renderer, {testField});
         }
-        SDL_Delay(1);
+        SDL_Delay(10);
 
         SDL_SetRenderDrawColor (renderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_RenderClear(renderer);

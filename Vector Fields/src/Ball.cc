@@ -40,7 +40,7 @@ vector<double> Ball::getVel(){
 }
 
 int Ball::update(vector<Field> fields){
-    double pos[] = {position[X],position[Y]};
+    double pos[] = {position[X], position[Y]};
     double accel[2];
     vector<double> temp;
     for(vector<Field>::iterator it = fields.begin(); it != fields.end(); ++it){
