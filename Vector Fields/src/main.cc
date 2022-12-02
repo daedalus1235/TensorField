@@ -4,8 +4,8 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-#include "Ball.h"
-#include "Field.h"
+#include "../include/Ball.h"
+#include "../include/Field.h"
 #define nl "\n"
 
 typedef long long ll;

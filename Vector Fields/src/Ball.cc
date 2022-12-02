@@ -1,4 +1,4 @@
-#include "Ball.h"
+#include "../include/Ball.h"
 
 Ball::Ball(){
     //ctor
